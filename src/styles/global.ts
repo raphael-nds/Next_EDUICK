@@ -31,8 +31,7 @@ const GlobalStyles = createGlobalStyle`
       padding: 0px;
       overflow: auto;
       overflow-x: hidden;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 1.6rem;
+      font-family: 'Poppins', sans-serif;      font-size: 1.6rem;
       font-weight: 300;
     }
 
@@ -40,8 +39,7 @@ const GlobalStyles = createGlobalStyle`
     textarea,
     button {
       ${({ theme }) => css`
-        font-family: 'Open Sans';
-
+        font-family: 'Poppins', sans-serif;
         background-color: transparent;
 
         border-radius: 4px;

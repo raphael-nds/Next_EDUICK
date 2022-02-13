@@ -11,11 +11,12 @@ export const Star = ({ rating = 0 }: Props) => {
   return (
     <S.Wrapper>
       {star?.map((_, index) => (
-        <BsStarFill
-          key={index}
-          fontSize="2.5rem"
-          color={index >= rating ? '#ccc' : 'yellow'}
-        />
+        <div key={index}>
+          <BsStarFill
+            fontSize="2rem"
+            color={index >= rating ? '#ccc' : '#FFC908'}
+          />
+        </div>
       ))}
     </S.Wrapper>
   )

@@ -2,13 +2,6 @@
   "courses": [
     {
       "image": "https://media.istockphoto.com/photos/reading-with-my-teacher-picture-id1295820320?s=612x612",
-      "rating": 5,
-      "total_lessons": 12,
-      "id": 1,
-      "title": "Master English: Improve Your Speaking"
-    },
-    {
-      "image": "https://media.istockphoto.com/photos/reading-with-my-teacher-picture-id1295820320?s=612x612",
       "rating": 1,
       "total_lessons": 1,
       "id": 2,
@@ -16,31 +9,10 @@
     },
     {
       "image": "https://media.istockphoto.com/photos/reading-with-my-teacher-picture-id1295820320?s=612x612",
-      "rating": 3,
-      "total_lessons": 8,
-      "id": 3,
-      "title": "Master Portugues"
-    },
-    {
-      "image": "https://media.istockphoto.com/photos/reading-with-my-teacher-picture-id1295820320?s=612x612",
       "rating": 2,
       "total_lessons": 6,
       "id": 4,
       "title": "Master English: Improve Your Speaking"
-    },
-    {
-      "image": "https://media.istockphoto.com/photos/reading-with-my-teacher-picture-id1295820320?s=612x612",
-      "rating": 4,
-      "total_lessons": 19,
-      "id": 5,
-      "title": "Master Espanhol: So os lacucarachas"
-    },
-    {
-      "image": "https://media.istockphoto.com/photos/reading-with-my-teacher-picture-id1295820320?s=612x612",
-      "rating": 5,
-      "total_lessons": 23,
-      "id": 6,
-      "title": "Master Portugues"
     },
     {
       "image": "https://media.istockphoto.com/photos/reading-with-my-teacher-picture-id1295820320?s=612x612",

@@ -17,14 +17,33 @@ export const Header = styled.div`
       width: 100%;
       max-width: 79%;
 
+      align-items: center;
       justify-content: space-between;
       margin: 0 auto;
       padding: 10px;
 
-      > div {
+      > div.left {
+        width: 30%;
         display: flex;
 
+        > span {
+          margin-left: 20px;
+        }
+      }
+      > div.right {
+        width: 35%;
+        display: flex;
         align-items: center;
+        justify-content: space-between;
+
+        > button {
+          width: auto;
+          border: none;
+
+          cursor: pointer;
+
+          background: rgba(32, 14, 100, 0.3);
+        }
       }
 
       @media (max-width: 720px) {

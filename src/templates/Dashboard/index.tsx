@@ -5,13 +5,15 @@ import { toast } from 'react-toastify'
 
 import { Items } from 'components/Items'
 import { Spinner } from 'components/Spinner'
+import { Logo } from 'components/Logo'
+import { CardProfile } from 'components/CardProfile'
+import { Pagination } from 'components/Pagination'
 
 import { api } from 'services/api'
+import { useAuth } from 'context/authContext'
 
-import * as S from './styles'
-import { Logo } from 'components/Logo'
-import { Button } from 'components/Button'
 import { ModalUpdateCourse } from './ModalUpdateCourse'
+import * as S from './styles'
 
 export type DataCourses = {
   id: number
@@ -22,10 +24,13 @@ export type DataCourses = {
 }
 
 const DashboardPage = () => {
+  const { user } = useAuth()
+
   const containerRef = useRef<any>(null)
 
   const [course, setCourse] = useState<DataCourses[]>([])
   const [page, setPage] = useState(1)
+  const [totalCourse, setTotalCourses] = useState(1)
 
   const [modalUpdateOpen, setModalUpdateOpen] = useState(false)
   const [modalCurrentProps, setModalCurrentProps] = useState<DataCourses>()
@@ -35,12 +40,14 @@ const DashboardPage = () => {
     await api
       .get(`/courses`, {
         params: {
-          _limit: 9,
-          _page: page
+          page
         }
       })
       .then(
-        (response) => setCourse(response.data)
+        (response) => {
+          setCourse(response.data)
+          setTotalCourses(response.data.length)
+        }
         //setCourse((oldState) => [...oldState, ...response.data])
       )
   }
@@ -57,7 +64,7 @@ const DashboardPage = () => {
     }
 
     fetchData()
-  }, [page, course])
+  }, [course, page])
 
   // useEffect(() => {
   //   // const options = {
@@ -77,9 +84,10 @@ const DashboardPage = () => {
   // }, [])
 
   const { error, isLoading } = useQuery(
-    ['@courses-cache', page],
-    () => getCourses(page),
-    { staleTime: 1000 * 5 }
+    ['@courses-cache'],
+
+    () => getCourses(page)
+    // { staleTime: 1000 * 5 }
   )
 
   function handleClickModalOpen(item: DataCourses) {
@@ -96,14 +104,18 @@ const DashboardPage = () => {
     <S.Wrapper>
       <S.Header>
         <div>
-          <div>
+          <div className="left">
             <Logo />
             <span>My Classes</span>
           </div>
 
-          <div>
+          <div className="right">
             <button>CHANGE TO TEACHER MODO</button>
-            <span>avatar</span>
+            <CardProfile
+              imgUser={'/assets/avatar.svg'}
+              // emailUser={user?.email}
+              // nameUser={' '}
+            />
           </div>
         </div>
       </S.Header>
@@ -192,6 +204,9 @@ const DashboardPage = () => {
           progress: undefined
         })}
       <ReactQueryDevtools initialIsOpen={false} position="top-right" />
+
+      {/* PAGINAÇÃO */}
+      <Pagination totalCountRegister={totalCourse} registerPerPage={5} />
 
       {/* MODAL Update */}
       <ModalUpdateCourse

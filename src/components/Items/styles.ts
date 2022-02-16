@@ -80,4 +80,5 @@ export const WrapperDelete = styled.div`
   text-align: center;
 
   padding: 15px;
+  background: red;
 `

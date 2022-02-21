@@ -7,81 +7,49 @@ import { Items } from 'components/Items'
 import { Spinner } from 'components/Spinner'
 import { Logo } from 'components/Logo'
 import { CardProfile } from 'components/CardProfile'
-import { Pagination } from 'components/Pagination'
 
-import { api } from 'services/api'
-import { useAuth } from 'context/authContext'
+import { DataCourses, useServiceCourses } from 'services/courseService'
 
 import { ModalUpdateCourse } from './ModalUpdateCourse'
 import * as S from './styles'
 
-export type DataCourses = {
-  id: number
-  image: string
-  rating: number
-  title: string
-  total_lessons: number
-}
-
 const DashboardPage = () => {
-  const { user } = useAuth()
+  const { getCourses, deleteCourse } = useServiceCourses()
 
   const containerRef = useRef<any>(null)
 
-  const [course, setCourse] = useState<DataCourses[]>([])
+  const [returnCourse, setReturnCourse] = useState<DataCourses[]>([])
   const [page, setPage] = useState(1)
   const [totalCourse, setTotalCourses] = useState(1)
-
   const [modalUpdateOpen, setModalUpdateOpen] = useState(false)
   const [modalCurrentProps, setModalCurrentProps] = useState<DataCourses>()
 
-  // CHAMAR CURSOS
-  const getCourses = async (page: number) => {
-    await api
-      .get(`/courses`, {
-        params: {
-          page
-        }
-      })
-      .then(
-        (response) => {
-          setCourse(response.data)
-          setTotalCourses(response.data.length)
-        }
-        //setCourse((oldState) => [...oldState, ...response.data])
-      )
-  }
+  //Resolver problema nas requisições
+  console.log('-----', returnCourse)
 
-  // DELETAR CURSOS
-  async function deleteCourse(id: number) {
-    await api.delete(`/courses/${id}`).then((response) => console.log(response))
-  }
-
-  // CHAMADA NA API
   useEffect(() => {
     async function fetchData() {
-      await getCourses(page)
+      const response = await getCourses(page)
+      setReturnCourse((oldState) => [...oldState, ...response])
     }
 
     fetchData()
-  }, [course, page])
+  }, [page])
 
-  // useEffect(() => {
-  //   // const options = {
-  //   //   root: null,
-  //   //   rootMargin: '0px',
-  //   //   threshold: 1.0
-  //   // }
+  useEffect(() => {
+    const target = document.querySelector('#container')
 
-  //   const intersectionObserver = new IntersectionObserver((entries) => {
-  //     if (entries.some((entry) => entry.isIntersecting)) {
-  //       setPage((currentValue) => currentValue + 1)
-  //     }
-  //   })
-
-  //   intersectionObserver.observe(containerRef.current)
-  //   return () => intersectionObserver.disconnect()
-  // }, [])
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        console.log('Sentinela appears!', page + 1)
+        setPage((currentValue) => currentValue + 1)
+      }
+    })
+    if (target) {
+      intersectionObserver.observe(target)
+    }
+    return () => intersectionObserver.disconnect()
+  }, [])
 
   const { error, isLoading } = useQuery(
     ['@courses-cache'],
@@ -90,15 +58,11 @@ const DashboardPage = () => {
     // { staleTime: 1000 * 5 }
   )
 
-  function handleClickModalOpen(item: DataCourses) {
-    const { id, title } = item
-    return { id, title }
-  }
   function handleClickModalClose() {
     setModalUpdateOpen(false)
   }
   const coursesCache = useQuery<DataCourses>('@courses-cache')
-  const dataCourses = coursesCache.data
+  // const dataCourses = coursesCache.data
 
   return (
     <S.Wrapper>
@@ -163,26 +127,29 @@ const DashboardPage = () => {
       </S.SectionDesktop>
 
       <S.Container>
-        {course?.map((item) => (
-          <Items
-            key={item.id}
-            onClickDelete={() => deleteCourse(item.id)}
-            onClick={() => {
-              setModalCurrentProps({
-                id: item.id,
-                image: item.image,
-                rating: item.rating,
-                title: item.title,
-                total_lessons: item.total_lessons
-              })
-              setModalUpdateOpen(true)
-            }}
-            img={item.image}
-            star={item.rating}
-            totalLessons={item.total_lessons}
-            title={item.title}
-          />
+        {returnCourse?.map((item) => (
+          <>
+            <Items
+              key={item.id}
+              onClickDelete={() => deleteCourse(item.id)}
+              onClick={() => {
+                setModalCurrentProps({
+                  id: item.id,
+                  image: item.image,
+                  rating: item.rating,
+                  title: item.title,
+                  total_lessons: item.total_lessons
+                })
+                setModalUpdateOpen(true)
+              }}
+              img={item.image}
+              star={item.rating}
+              totalLessons={item.total_lessons}
+              title={item.title}
+            />
+          </>
         ))}
+        <div style={{ height: ' 5px', background: 'red' }} id="container" />
 
         {!isLoading && <div ref={containerRef} />}
       </S.Container>
@@ -204,9 +171,6 @@ const DashboardPage = () => {
           progress: undefined
         })}
       <ReactQueryDevtools initialIsOpen={false} position="top-right" />
-
-      {/* PAGINAÇÃO */}
-      <Pagination totalCountRegister={totalCourse} registerPerPage={5} />
 
       {/* MODAL Update */}
       <ModalUpdateCourse

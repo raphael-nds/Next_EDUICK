@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { toast } from 'react-toastify'
@@ -16,16 +17,10 @@ import * as S from './styles'
 const DashboardPage = () => {
   const { getCourses, deleteCourse } = useServiceCourses()
 
-  const containerRef = useRef<any>(null)
-
   const [returnCourse, setReturnCourse] = useState<DataCourses[]>([])
   const [page, setPage] = useState(1)
-  const [totalCourse, setTotalCourses] = useState(1)
   const [modalUpdateOpen, setModalUpdateOpen] = useState(false)
   const [modalCurrentProps, setModalCurrentProps] = useState<DataCourses>()
-
-  //Resolver problema nas requisições
-  console.log('-----', returnCourse)
 
   useEffect(() => {
     async function fetchData() {
@@ -61,8 +56,6 @@ const DashboardPage = () => {
   function handleClickModalClose() {
     setModalUpdateOpen(false)
   }
-  const coursesCache = useQuery<DataCourses>('@courses-cache')
-  // const dataCourses = coursesCache.data
 
   return (
     <S.Wrapper>
@@ -75,11 +68,7 @@ const DashboardPage = () => {
 
           <div className="right">
             <button>CHANGE TO TEACHER MODO</button>
-            <CardProfile
-              imgUser={'/assets/avatar.svg'}
-              // emailUser={user?.email}
-              // nameUser={' '}
-            />
+            <CardProfile imgUser={'/assets/avatar.svg'} />
           </div>
         </div>
       </S.Header>
@@ -150,8 +139,6 @@ const DashboardPage = () => {
           </>
         ))}
         <div style={{ height: ' 5px', background: 'red' }} id="container" />
-
-        {!isLoading && <div ref={containerRef} />}
       </S.Container>
       <S.Footer>
         <p>

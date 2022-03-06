@@ -6,19 +6,34 @@ export type Props = {
   img: string
   star: number
   totalLessons: number
+  onClick: () => void
+  onClickDelete: () => void
 }
 
-export const Items = ({ title, img, star, totalLessons }: Props) => {
+export const Items = ({
+  title,
+  img,
+  star,
+  totalLessons,
+  onClick,
+  onClickDelete
+}: Props) => {
   return (
     <S.Wrapper>
-      <img src={img} alt="" />
-      <div className="space">
-        <Star rating={star} />
-        <div className="lessons">
-          {totalLessons} {totalLessons === 1 ? 'LESSON' : 'LESSONS'}
+      <div onClick={onClick}>
+        <img src={img} alt="" />
+        <div className="space">
+          <Star rating={star} />
+          <div className="lessons">
+            {totalLessons} {totalLessons === 1 ? 'LESSON' : 'LESSONS'}
+          </div>
         </div>
+        <h3>{title}</h3>
       </div>
-      <h3>{title}</h3>
+
+      <S.WrapperDelete>
+        <span onClick={onClickDelete}>delete</span>
+      </S.WrapperDelete>
     </S.Wrapper>
   )
 }

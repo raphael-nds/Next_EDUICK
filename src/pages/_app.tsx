@@ -28,6 +28,10 @@ function App({ Component, pageProps }: AppProps) {
                 content="A simple project starter to work with Typescript, React, NextJS and Styled Components"
               />
               <link rel="manifest" href="/manifest.json" />
+              <link
+                href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,700;1,400&display=swap"
+                rel="stylesheet"
+              ></link>
             </Head>
             <Component {...pageProps} />
           </QueryClientProvider>

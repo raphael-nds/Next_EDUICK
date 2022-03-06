@@ -9,14 +9,17 @@ type SignInData = {
   password: string
 }
 type User = {
-  name: string
-  email: string
-  avatar_url: string
+  id?: string
+  email?: string
+  csrfToken?: string
+  name?: string
+  avatar_url?: string
 }
 type Props = {
   children: React.ReactNode
 }
 type AuthContextData = {
+  user: User[]
   signIn(data: SignInData): Promise<void>
   isAuthenticated: boolean
   loading: boolean
@@ -26,18 +29,10 @@ type AuthContextData = {
 const authContext = createContext({} as AuthContextData)
 
 export const AuthProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<User>()
+  const [user, setUser] = useState<User[]>([])
   const [loading, setLoading] = useState(false)
 
   const isAuthenticated = !!user
-
-  // useEffect(() => {
-  //   const { '@nextauth-token': token } = parseCookies()
-
-  //   if (token) {
-  //     console.log(user)
-  //   }
-  // }, [token])
 
   async function signIn({ email, password }: SignInData) {
     const { data } = await api.get('/users', {
@@ -50,14 +45,14 @@ export const AuthProvider = ({ children }: Props) => {
       maxAge: 60 * 60 * 1 //1 hours
     })
 
-    setUser(data)
+    setUser(data[0])
 
     Router.push('/dashboard')
   }
 
   return (
     <authContext.Provider
-      value={{ signIn, isAuthenticated, loading, setLoading }}
+      value={{ signIn, isAuthenticated, loading, setLoading, user }}
     >
       {children}
     </authContext.Provider>

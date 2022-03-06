@@ -11,7 +11,7 @@ export default {
     }
   },
   font: {
-    family: '"Opens sans", sans-serif',
+    family: '"Poppins", sans-serif;',
     sizes: {
       lg: '2.8rem',
       xmd: '1.8rem',
@@ -27,8 +27,7 @@ export default {
       yellow: 'rgba(255, 215, 79, 1)',
       purple: 'rgba(121, 85, 232, 1)',
       background: '#9871f5',
-      backgroundDark: 'rgba(32, 14, 100, 1)',
-      back: `linear-gradient(180deg, #7a57fd 0%, #6135d7 100%)`
+      backgroundDark: 'rgba(32, 14, 100, 1)'
     },
     alerts: {
       red: '#FF6B6B',

@@ -37,8 +37,8 @@ export const Header = ({ isMidiaMobile, setIsMidiaMobile }: MidiaMobile) => {
           <Logo />
           {isMidiaMobile && (
             <ul className="navBarMobile">
-              <Link href="#">How it works</Link>
-              <Link href="#">About Us</Link>
+              <li>How it works</li>
+              <li>About Us</li>
               <li>
                 <button
                   className="btnGetStarted"

@@ -11,6 +11,7 @@ import { TextField } from 'components/TextField'
 import { Title } from 'components/Title'
 
 import { useAuth } from 'context/authContext'
+import { Spinner } from 'components/Spinner'
 
 Modal.setAppElement('#__next')
 
@@ -51,8 +52,12 @@ const ModalLogin = ({ isModalOpen, onModalClose }: Props) => {
       email: values.email,
       password: values.password
     })
-
-    setLoading(false)
+      .then(() => {
+        onModalClose()
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
@@ -91,6 +96,8 @@ const ModalLogin = ({ isModalOpen, onModalClose }: Props) => {
           </div>
         </S.Container>
       </S.Wrapper>
+
+      {loading && <Spinner />}
     </Modal>
   )
 }

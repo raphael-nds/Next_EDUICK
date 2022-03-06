@@ -84,4 +84,8 @@ export const Wrapper = styled.div`
       transform: scale(1);
     }
   }
+
+  @media (max-width: 476px) {
+    display: block;
+  }
 `
